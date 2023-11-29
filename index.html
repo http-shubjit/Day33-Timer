@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="timerconatiner">
+<h1 id="timerdisplay">00:00:00</h1>
+    </div>
+    <script>
+        var timebegan=null;
+        var timestop=null;
+        var stopduration=0;
+        var startinterval=null;
+        var flag=false;
+        
+       const timerconatiner=document.getElementsByClassName("timerconatiner")[0];
+       timerconatiner.addEventListener("click" ,function (){
+        if( !flag)
+        {
+            starttimer()
+            flag=true;
+        }
+        else{
+            stoptimer();
+            flag=false;
+        }
+       })
+       timerconatiner.addEventListener("dblclick",function(){
+        resettimer();
+       })
+       function starttimer(){
+        if(timebegan===null){
+            timebegan=new Date();
+        }
+        if(timestop !== null){
+            stopduration+=(new Date()-timestop)
+        }
+        startinterval=setInterval(clockrunning,10)
+       }
+
+       function stoptimer(){
+         timestop=new Date();
+         clearInterval(startinterval);
+       }
+       function clockrunning(){
+var currenttime = new Date();
+var timeelapsed=new Date(currenttime-timebegan-stopduration);
+var min=timeelapsed.getUTCMinutes();
+var sec=timeelapsed.getUTCSeconds();
+var msec=timeelapsed.getMilliseconds();
+msec=Math.floor(msec/10)
+document.getElementById("timerdisplay").innerHTML=(min=min<10?'0'+min:min)+":"+
+(sec=sec<10?'0'+sec:sec)+":"+(msec=msec<10?'0'+msec:msec);
+
+       }
+       function resettimer(){
+        clearInterval(startinterval)
+        timebegan=null;
+        timestop=null;
+        stopduration=0;
+        document.getElementById("timerdisplay").innerHTML="00:00:00";
+        flag=false;
+       }
+    </script>
+</body>
+</html>
